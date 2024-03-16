@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yelp Camp/title></title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <main>
+        <section>
+            <h2>All Yelp Camps!</h2>
+            <ul>
+                <% for(let campground of campgrounds) { %>
+                    <li><a href="/campgrounds/<%= campground._id %>"><%= campground.title %></a></li>
+                <% }%>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Yelp Camp. All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
+
+

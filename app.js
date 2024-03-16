@@ -24,6 +24,16 @@ app.get('/', (req, res) => {
     res.render('home');
 });
 
+app.get('/campgrounds', async (req, res) => {
+    const campgrounds = await CampGround.find({})
+    res.render('campgrounds/index', { campgrounds })
+});
+
+app.get('/campgrounds/:id', async (req, res) => {
+    const camp = await CampGround.findById(req.params.id)
+    res.render('campgrounds/show', { camp })
+});
+
 app.get('/makecampground', async (req, res) => {
     const camp = new CampGround({title: 'Yellow Camp', price: 400, description: 'Best camp in the Rila mountain!'})
     await camp.save();
