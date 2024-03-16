@@ -4,13 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yelp Camp/title></title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
     <main>
         <section>
             <h2>All Yelp Camps!</h2>
+            <div>
+                <a href="/campgrounds/new">Add Campground</a>
+            </div>
             <ul>
                 <% for(let campground of campgrounds) { %>
                     <li><a href="/campgrounds/<%= campground._id %>"><%= campground.title %></a></li>
