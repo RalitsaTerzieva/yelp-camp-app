@@ -17,6 +17,26 @@ To get started with Yelp Camp, follow these steps:
 1. Clone the repository to your local machine:
 
 ```
-git clone https://github.com/YourUsername/yelp-camp.git
+git clone https://github.com/RalitsaTerzieva/yelp-camp.git
 
 ```
+
+2. Navigate to the project directory:
+
+```
+
+cd yelp-camp
+
+```
+
+3. Install dependencies:
+
+```
+
+npm install
+
+```
+
+4. Set up your MongoDB database.
+
+5. Run the application
