@@ -17,7 +17,7 @@ To get started with Yelp Camp, follow these steps:
 1. Clone the repository to your local machine:
 
 ```
-git clone https://github.com/RalitsaTerzieva/yelp-camp.git
+git clone https://github.com/RalitsaTerzieva/yelp-camp-app/tree/main
 
 ```
 
