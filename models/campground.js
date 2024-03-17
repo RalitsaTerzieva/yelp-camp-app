@@ -5,7 +5,8 @@ const CampGroundSchema = new Schema({
     title: String,
     price: Number,
     description: String,
-    location: String
+    location: String, 
+    image: String
 
 });
 
