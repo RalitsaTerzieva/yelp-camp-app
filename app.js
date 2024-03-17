@@ -32,6 +32,12 @@ app.use((req,res,next) => {
     next();
 })
 
+app.use('/campgrounds/new', (req, res, next) => {
+    console.log('New New')
+
+    next();
+})
+
 
 app.get('/', (req, res) => {
     console.log(`REQUEST TIME: ${req.requestTime}`)
@@ -80,6 +86,10 @@ app.get('/makecampground', async (req, res) => {
     await camp.save();
     res.send(camp);
 });
+
+app.use((req, res) => {
+    res.status(404).send('Not Found!')
+})
 
 
 app.listen(3000, () => {
