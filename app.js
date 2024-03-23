@@ -3,6 +3,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
+const catchAsync = require('./utils/catchAsync');
 const CampGround = require('./models/campground');
 const morgan = require('morgan');
 
@@ -56,40 +57,40 @@ app.get('/campgrounds/new', (req, res) => {
     res.render('campgrounds/new');
 })
 
-app.post('/campgrounds', async (req, res) => {
+app.post('/campgrounds', catchAsync(async (req, res, next) => {
     const campground = new CampGround(req.body.campground);
     await campground.save();
-    res.redirect(`/campgrounds/${campground._id}`)
-})
+    res.redirect(`/campgrounds/${campground._id}`) 
+}))
 
-app.get('/campgrounds/:id', async (req, res) => {
+app.get('/campgrounds/:id',catchAsync( async (req, res) => {
     const camp = await CampGround.findById(req.params.id)
     res.render('campgrounds/show', { camp })
-});
+}));
 
-app.get('/campgrounds/:id/edit', async (req, res) => {
+app.get('/campgrounds/:id/edit', catchAsync(async (req, res) => {
     const campground = await CampGround.findById(req.params.id)
     res.render('campgrounds/edit', { campground })
-})
+}));
 
-app.put('/campgrounds/:id', async (req, res) => {
+app.put('/campgrounds/:id', catchAsync(async (req, res) => {
     const campground = await CampGround.findByIdAndUpdate(req.params.id, req.body.campground)
     res.redirect(`/campgrounds/${campground._id}`)
-})
+}));
 
-app.delete('/campgrounds/:id', async (req, res) => {
+app.delete('/campgrounds/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     await CampGround.findByIdAndDelete(id)
     res.redirect(`/campgrounds`)
-})
+}))
 
-app.get('/makecampground', async (req, res) => {
+app.get('/makecampground', catchAsync(async (req, res) => {
     const camp = new CampGround({title: 'Yellow Camp', price: 400, description: 'Best camp in the Rila mountain!'})
     await camp.save();
     res.send(camp);
-});
+}));
 
-app.use((req, res) => {
+app.use((err, req, res, next) => {
     res.status(404).send('Not Found!')
 })
 
