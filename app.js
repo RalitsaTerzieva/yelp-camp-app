@@ -7,7 +7,9 @@ const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const CampGround = require('./models/campground');
 const morgan = require('morgan');
-const { campgroundSchema } = require('./schemas');
+const { campgroundSchema, reviewSchema } = require('./schemas');
+const campground = require('./models/campground');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
@@ -52,6 +54,16 @@ const validateCampground = (req, res, next) => {
     }
 }
 
+const validateReview = (req, res, next) => {
+    const { error } = reviewSchema.validate(req.body);
+    if(error) {
+        const message = error.details.map(msg => msg.message).join(',')
+        throw new ExpressError(message, 400)
+    } else {
+        next();
+    }
+}
+
 
 app.get('/', (req, res) => {
     console.log(`REQUEST TIME: ${req.requestTime}`)
@@ -76,7 +88,7 @@ app.post('/campgrounds', validateCampground, catchAsync(async (req, res, next) =
 }))
 
 app.get('/campgrounds/:id',catchAsync( async (req, res) => {
-    const camp = await CampGround.findById(req.params.id)
+    const camp = await CampGround.findById(req.params.id).populate('reviews')
     res.render('campgrounds/show', { camp })
 }));
 
@@ -101,6 +113,16 @@ app.get('/makecampground', catchAsync(async (req, res) => {
     await camp.save();
     res.send(camp);
 }));
+
+app.post('/campgrounds/:id/reviews',validateReview, catchAsync(async (req, res) => {
+    const campground = await CampGround.findById(req.params.id)
+    const review = new Review(req.body.review);
+    campground.reviews.push(review);
+    await review.save();
+    await campground.save();
+    res.redirect(`/campgrounds/${campground._id}`);
+}));
+
 
 app.all('*', (err, req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
