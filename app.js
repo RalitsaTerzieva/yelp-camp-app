@@ -10,6 +10,9 @@ const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const CampGround = require('./models/campground');
 const morgan = require('morgan');
+const passport = require('passport');
+const LocalStrategy = require('passport-local');
+const User = require('./models/user');
 
 
 const campgrounds = require('./routes/campgrounds');
@@ -51,6 +54,12 @@ app.use(session(sessionConfig))
 app.use(flash());
 app.use(morgan('dev'))
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 
 app.use((req, res, next) => {
     res.locals.success = req.flash('success');
@@ -64,6 +73,12 @@ app.use((req,res,next) => {
     req.requestTime = Date.now();
 
     next();
+})
+
+app.get('/fakeUser', async (req, res) =>{
+    const user = new User({email: 'example@abv.bg', username: 'Bibi'})
+    const newUser = await User.register(user, 'chicken')
+    res.send(newUser);
 })
 
 app.use('/campgrounds/new', (req, res, next) => {
