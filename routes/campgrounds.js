@@ -5,15 +5,17 @@ const CampGround = require('../models/campground');
 const campgrounds = require('../controllers/campgrounds');
 const router = express.Router();
 const { isLoggedIn, isAuthor, validateCampground } = require('../middleware');
+const { storage } = require('../cloudinary');
 const multer  = require('multer')
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({ storage })
 
 
 router.route('/')
     .get(catchAsync(campgrounds.index))
     // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground))
     .post(upload.single('image'), (req, res) => {
-        res.send(req.body, req,file)
+        console.log(req.body, req.file)
+        res.send('IT worked')
     })
 
 router.get('/new', isLoggedIn, campgrounds.renderNewForm)
