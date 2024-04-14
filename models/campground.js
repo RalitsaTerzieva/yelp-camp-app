@@ -7,7 +7,10 @@ const CampGroundSchema = new Schema({
     price: Number,
     description: String,
     location: String, 
-    image: String,
+    images: [{
+        url: String,
+        filename: String
+    }],
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User'

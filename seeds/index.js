@@ -24,7 +24,16 @@ const seedDb = async () => {
             author: '5f5c330c2cd79d538f2c66d9',
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
             title: `${sample(description)} ${sample(places)}`,
-            image: 'https://source.unsplash.com/collection/483251/1600X900',
+            images: [
+                {
+                  url: 'https://res.cloudinary.com/dls5xxi9e/image/upload/v1713099508/YelpCamp/fffq7bx4dfyzckcaorxx.jpg',
+                  filename: 'YelpCamp/fffq7bx4dfyzckcaorxx'
+                },
+                {
+                    url: 'https://res.cloudinary.com/dls5xxi9e/image/upload/v1713095689/YelpCamp/flm51ndamymqubybqatq.jpg',
+                    filename: 'YelpCamp/fffq7bx4dfyzckcaorxx'
+                  }
+              ],
             description: "Unwind in nature's embrace at our secluded campgrounds, where the only sounds you'll hear are the rustle of leaves and the chirping of birds.",
             price
         })
