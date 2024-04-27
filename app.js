@@ -52,6 +52,7 @@ app.use(
   );
 
 const sessionConfig = {
+    name: 'session',
     secret: 'thisshouldbebettersecret',
     resave: false,
     saveUninitialized: true,
