@@ -1,8 +1,11 @@
 <% layout('layouts/boilerplate')%>
-
-<div class="alert alert-danger" role="alert">
-    <h4 class="alert-heading"><%= err.message %></h4>
-    <p>We're sorry, but an unexpected error occurred while processing your request. Our team has been notified and we're working to fix the issue as soon as possible.</p>
-    <hr>
-    <p class="mb-0">Thank you for your patience and understanding.</p>
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="alert alert-danger" role="alert">
+            <h4 class="alert-heading"><%=err.message%></h4>
+            <% if (process.env.NODE_ENV !== "production") { %>
+            <p><%= err.stack %></p>
+            <% } %>
+        </div>
+    </div>
 </div>
