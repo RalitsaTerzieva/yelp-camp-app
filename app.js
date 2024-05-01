@@ -23,6 +23,9 @@ const usersRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewsRoutes = require('./routes/reviews');
 const mongoSanitize = require('express-mongo-sanitize');
+const MongoDBStore = require("connect-mongo")(session);
+
+// const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/yelp-camp';
 
 mongoose.connect('mongodb://localhost:27017/yelp-camp', {
     useNewUrlParser: true,
@@ -51,7 +54,18 @@ app.use(
     }),
   );
 
+const store = new MongoDBStore({
+    url: 'mongodb://localhost:27017/yelp-camp',
+    secret: 'thisshouldbebettersecret',
+    touchAfter: 24 * 60 * 60
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
 const sessionConfig = {
+    store,
     name: 'session',
     secret: 'thisshouldbebettersecret',
     resave: false,
